@@ -1,0 +1,123 @@
+{% extends "header.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid bg-primary py-5">
+    <div class="container"> 
+        <h1 class="text-center text-white mb-0 mt-3">Register Here</h1>
+        <p class="text-center text-light mt-2">Join us and start enjoying our services!</p>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 col-sm-12">
+            <div class="card shadow-lg border-light rounded-3 mb-4">
+                <div class="card-header text-center bg-primary text-white">
+                    <h3 class="text-light">Create Your Account</h3>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {% for message in messages %}
+                        {{ message }}
+                        {% endfor %}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endif %}
+                    
+
+                    <form action="{% url 'user_action' %}" method="post" id="myform" enctype="multipart/form-data" onsubmit="return validateForm()">
+                        {% csrf_token %}
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <label for="name"><i class="fas fa-user"></i> Name</label>
+                                    <input type="text" id="name" class="form-control" name="Name" required>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <label for="phone"><i class="fas fa-phone"></i> Phone Number</label>
+                                    <input type="text" id="phone" class="form-control" name="phone" required>
+                                    <div class="text-danger" id="phoneError"></div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <label for="email"><i class="fas fa-envelope"></i> E-mail</label>
+                                    <input type="email" id="email" class="form-control" name="Email" required>
+                                    <div class="text-danger" id="emailError"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <label for="username"><i class="fas fa-user-tag"></i> Username</label>
+                                    <input type="text" id="username" class="form-control" name="username" required>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <label for="password1"><i class="fas fa-lock"></i> Password</label>
+                                    <input type="password" id="password1" class="form-control" name="password" required>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <label for="password2"><i class="fas fa-lock"></i> Confirm Password</label>
+                                    <input type="password" id="password2" class="form-control" name="cpassword" required>
+                                    <div class="text-danger" id="passwordError"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <label for="address"><i class="fas fa-address-card"></i> Address</label>
+                            <textarea id="address" name="Address" class="form-control" rows="3" required></textarea>
+                            <div class="text-danger" id="addressError"></div>
+                        </div>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg px-4"><i class="fas fa-user-plus"></i> Register</button>
+                        </div>
+                        <div class="text-center mt-3">
+                            <p>Already have an account? <a href="{% url 'user_login' %}" class="text-primary">Login here</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script>
+function validateForm() {
+    // Clear previous error messages
+    document.getElementById('phoneError').textContent = '';
+    document.getElementById('emailError').textContent = '';
+    document.getElementById('passwordError').textContent = '';
+
+    const phone = document.getElementById('phone').value;
+    const email = document.getElementById('email').value;
+    const password1 = document.getElementById('password1').value;
+    const password2 = document.getElementById('password2').value;
+
+    let isValid = true;
+
+    // Phone number validation
+    const phonePattern = /^[6789]\d{9}$/;
+    if (!phonePattern.test(phone)) {
+        document.getElementById('phoneError').textContent = 'Phone number must have 10 digits and start with 6, 7, 8, or 9.';
+        isValid = false;
+    }
+
+    // Email format validation
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+        document.getElementById('emailError').textContent = 'Please enter a valid email address.';
+        isValid = false;
+    }
+
+    // Password match validation
+    if (password1 !== password2) {
+        document.getElementById('passwordError').textContent = 'Passwords do not match.';
+        isValid = false;
+    }
+
+
+    return isValid; // Form is valid
+}
+</script>
+
+{% endblock %}

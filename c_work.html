@@ -1,0 +1,64 @@
+{% extends "Master/header.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Completed Work List</h2>
+    <div class="col-lg-6 m-auto">
+        {% if messages %}
+        <div class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+            {% for message in messages %}
+            <strong>{{ message }}</strong>
+            {% endfor %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="card shadow-lg">
+        <div class="card-body mt-4">
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Package</th>
+                            <th>User Details</th>
+                            <th>Service Date</th>
+                            <th>Booking Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in data %}
+                        {% if booking.status == 'completed' %}
+                        <tr>
+                            <td class="align-middle"><strong>{{ booking.package.name }}</strong>
+                                <i class="fas fa-check-circle text-success"></i>
+                                <br><strong>${{ booking.amount|floatformat:2 }}</strong>
+                            </td>
+                            <td class="align-middle">
+                                <strong>{{ booking.user.Name }}</strong>
+                                <br>
+                                <small><i class="fas fa-map-marker-alt"></i> {{ booking.user.Address }}</small>
+                                <br>
+                                <small><i class="fas fa-phone"></i> {{ booking.user.phone_number }}</small>
+                            </td>
+                            <td class="align-middle">{{ booking.date|date:"F j, Y" }}</td>
+                            <td class="align-middle">{{ booking.booking_date|date:"F j, Y" }}</td>
+                        </tr>
+                        {% endif %}
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center text-danger">No completed bookings found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+{% endblock content %}

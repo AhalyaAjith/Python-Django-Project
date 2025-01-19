@@ -1,0 +1,42 @@
+{% extends "Master/header.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container mt-4">
+  <h2 class="text-center mb-4">WORKER LIST</h2>
+  {% if data %}
+    <div class="table-responsive">
+      <table class="table table-hover table-striped table-bordered">
+        <thead class="thead-light">
+          <tr>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in data %}
+            <tr>
+              <td>{{ i.Name }}</td>
+              <td>{{ i.phone_number }}</td>
+              <td>{{ i.Email }}</td>
+              <td>{{ i.Address }}</td>
+              <td>
+                <a href="/delete_worker?w_id={{ i.w_id }}" class="btn btn-danger btn-sm" role="button" aria-label="Delete"
+                   onclick="return confirm('Are you sure you want to delete this item?');">
+                  <i class="fa fa-trash" aria-hidden="true"></i> Delete
+                </a>
+              </td>
+              
+              
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
+</div>
+
+{% endblock %}

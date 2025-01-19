@@ -1,0 +1,89 @@
+{% extends "user/header.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container-fluid bg-info py-5 mt-3">
+    <div class="container">
+        <h2 class="text-white mt-4">My Bookings</h2>
+        <p class="text-white mb-4">Manage your bookings easily and efficiently.</p>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Booking Details</h5>
+        </div>
+        <div class="card-body mt-4">
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Package</th>
+                            <th>Amount</th>
+                            <th>Booking Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in data %}
+                        <tr>
+                            <td class="align-middle">
+                                <strong>{{ booking.package.name }}</strong>
+                                {% if booking.status == 'completed' %}
+                                <i class="fas fa-check-circle text-success ms-2"></i>
+                                {% endif %}
+                            </td>
+                            <td class="align-middle text-success">${{ booking.amount|floatformat:2 }}</td>
+                            <td class="align-middle"><small>{{ booking.booking_date|date:"F j, Y" }}</small></td>
+                            <td class="align-middle px-3">
+                               
+                                <button class="btn btn-primary text-light"><a href="{% url 'track' %}?b_id={{booking.b_id}}" class="text-light">Track Booking</a></button>
+
+                                
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center text-danger">No bookings found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if messages %}
+<div class="alert alert-info alert-dismissible fade show" role="alert">
+    {% for message in messages %}
+    <strong>{{ message }}</strong>
+    {% endfor %}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+<script>
+    function showStatus(counter) {
+    const statusElement = document.getElementById(`status-${counter}`);
+    if (statusElement.style.display === "none" || statusElement.style.display === "") {
+        statusElement.style.display = "block";
+    } else {
+        statusElement.style.display = "none";
+    }
+}
+
+</script>
+
+<style>
+    table th, table td {
+        vertical-align: middle;
+    }
+
+    table tr:hover {
+        background-color: #f8f9fa; /* Light background on hover */
+    }
+</style>
+
+{% endblock content %}

@@ -1,0 +1,110 @@
+{% extends "Master/header.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Booking Overview</h2>
+    <div class="col-lg-6 m-auto">
+        {% if messages %}
+        <div class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+            {% for message in messages %}
+            <strong>{{ message }}</strong>
+            {% endfor %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="card shadow-lg">
+        <div class="card-body mt-4">
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Package</th>
+                            <th>User Details</th>
+                            <th>Service Date</th>
+                            <th>Booking Date</th>
+                            <th style="width: 250px;">Status</th> <!-- Adjusted width here -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in data %}
+                        <tr>
+                            <td class="align-middle"><strong>{{ booking.package.name }}</strong>
+                                {% if booking.status == 'completed' %}
+                                <i class="fas fa-check-circle text-success"></i>
+                                {% endif %}
+                                <br><strong>${{ booking.amount|floatformat:2 }}</strong>
+                            </td>
+                            <td class="align-middle">
+                                <strong>{{ booking.user.Name }}</strong>
+                                <br>
+                                <small><i class="fas fa-map-marker-alt"></i> {{ booking.user.Address }}</small>
+                                <br>
+                                <small><i class="fas fa-phone"></i> {{ booking.user.phone_number }}</small>
+                            </td>
+                            <td class="align-middle">{{ booking.date|date:"F j, Y" }}</td>
+                            <td class="align-middle"><small>{{ booking.booking_date|date:"F j, Y" }}</small></td>
+                            <td class="align-middle">
+                                <span class="badge 
+                                    {% if booking.status == 'pending' %}badge-warning
+                                    {% elif booking.status == 'in_progress' %}badge-info
+                                    {% elif booking.status == 'completed' %}badge-success
+                                    {% else %}badge-secondary
+                                    {% endif %}" >
+                                    {% if booking.status %}
+                                        {{ booking.status }}
+                                    {% else %}
+                                    <i class="fas fa-times-circle "> N o t - u p d a t e d</i> 
+                                    {% endif %}
+                                </span>
+
+                                <div class="d-flex flex-row align-items-center mt-2">
+                                    <button onclick="toggleReplyForm('{{ forloop.counter }}')"
+                                        class="btn btn-sm btn-warning mb-2 me-2">Set Status</button>
+                                    <div id="fdiv-{{ forloop.counter }}" class="reply-form"
+                                        style="display: none; border: 1px solid #007bff; padding: 10px; border-radius: 5px; background-color: #f8f9fa; width: 250px;">
+                                        <form method="post" action="/status/">
+                                            {% csrf_token %}
+                                            <input type="hidden" value="{{ booking.b_id }}" name="b_id">
+                                            <div class="form-group">
+                                                <label for="status-select-{{ forloop.counter }}">Select Status:</label>
+                                                <select class="form-control" id="status-select-{{ forloop.counter }}"
+                                                    name="status">
+                                                    <option value="" disabled selected>Choose...</option>
+                                                    <option value="pending">Pending</option>
+                                                    <option value="in_progress">In Progress</option>
+                                                    <option value="completed">Completed</option>
+                                                </select>
+                                            </div>
+                                            <button type="submit" class="btn btn-sm btn-success">Submit</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center text-danger">No bookings found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function toggleReplyForm(counter) {
+        const form = document.getElementById(`fdiv-${counter}`);
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+</script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+{% endblock content %}

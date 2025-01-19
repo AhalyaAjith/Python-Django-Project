@@ -1,0 +1,74 @@
+{% extends "user/header.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container-fluid bg-secondary py-5 mt-3">
+    <div class="container">
+        <h1 class="text-center text-white mb-0 mt-2">Our Laundry Packages</h1>
+        <p class="text-center text-light mt-2">Choose the perfect package to fit your lifestyle and budget.</p>
+    </div>
+</div>
+
+<div class="container mt-5">
+
+    <div class="col-lg-7 m-auto">
+        {% if messages %}
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <ul class="list-unstyled mb-0">
+                {% for message in messages %}
+                <li class="alert-{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="row">
+        {% for package in data %}
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-lg border-primary rounded" style="height: 350px;">
+                <div class="card-body text-center d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="d-inline-flex flex-column align-items-center justify-content-center bg-secondary rounded-circle shadow mt-2 mb-4" style="width: 120px; height: 120px; border: 10px solid #ebd7c8;">
+                            <h4 class="text-white"><strong>Price: ${{ package.price }}</strong></h3>
+                            
+                        </div>
+                        <h5 class="card-title font-weight-bold">{{ package.name }}</h5>
+                        <p class="card-text text-muted">{{ package.description|slice:":110" }}..</p>
+
+                    </div>
+                    <a href="{% url 'book_page' %}?l_id={{ package.l_id }}" class="btn btn-primary mt-3"><i class="fa fa-arrow-right"></i> Book Now</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-light text-center">
+                No packages available at the moment
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .card {
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+    }
+
+    .card-text {
+        font-size: 0.9rem;
+    }
+</style>
+
+{% endblock content %}

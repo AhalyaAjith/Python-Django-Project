@@ -1,0 +1,57 @@
+{% extends "header.html" %}
+{% load static %}
+{% block content %}
+
+<!-- About Start -->
+<div class="container-fluid bg-primary py-5 mt-3">
+    <div class="container">
+        <h1 class="text-center text-white mb-0">About Us</h1>
+        <p class="text-center text-light mt-2">Your Trusted Partner in Laundry Excellence!</p>
+    </div>
+</div>
+<div class="container-fluid py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4">
+                <img class="img-fluid rounded shadow-lg" src="{% static 'user/img/w.jpg' %}" alt="About Our Laundry Service"
+                     style="border: 3px solid #17a2b8; transition: transform 0.3s;">
+            </div>
+            <div class="col-lg-6 mt-5 mt-lg-0 pl-lg-5">
+                <h6 class="text-secondary text-uppercase font-weight-bold mb-3">Who We Are</h6>
+                <h1 class="display-4 mb-4">Premium Laundry Solutions Just for You</h1>
+                <h5 class="font-weight-light mb-4 text-muted">Transforming your laundry experience with unmatched quality and care.</h5>
+                <p class="mb-4 text-dark">At Dry Me, we believe that clean clothes are the foundation of a healthy lifestyle. Our expert team is dedicated to providing exceptional laundry services that cater to your every need. We handle your garments with utmost care, ensuring they receive the attention they deserve.</p>
+                <p class="mb-4 text-dark">Whether it's delicate fabrics or everyday wear, we use the latest technology and eco-friendly products to achieve outstanding results. Our commitment to sustainability and excellence sets us apart in the industry.</p>
+                <div class="row">
+                    <div class="col-sm-6 pt-3">
+                        <div class="d-flex align-items-center">
+                            <i class="fa fa-check-circle text-success mr-2" style="font-size: 1.5rem;"></i>
+                            <p class="text-dark font-weight-semibold m-0">Expert Care for All Fabrics</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 pt-3">
+                        <div class="d-flex align-items-center">
+                            <i class="fa fa-check-circle text-success mr-2" style="font-size: 1.5rem;"></i>
+                            <p class="text-dark font-weight-semibold m-0">Quick Turnaround Times</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 pt-3">
+                        <div class="d-flex align-items-center">
+                            <i class="fa fa-check-circle text-success mr-2" style="font-size: 1.5rem;"></i>
+                            <p class="text-dark font-weight-semibold m-0">Environmentally Friendly Practices</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 pt-3">
+                        <div class="d-flex align-items-center">
+                            <i class="fa fa-check-circle text-success mr-2" style="font-size: 1.5rem;"></i>
+                            <p class="text-dark font-weight-semibold m-0">Customer Satisfaction is Our Priority</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- About End -->
+
+{% endblock content %}
